@@ -80,15 +80,44 @@ async function putData(path = "", data) {
   if (!response.ok) return;
 }
 
-let putPath = "/fruits";
+let putPath = "/fruits/fruit4";
 let putDataObject = {
-  fruit4: {
-    type: "Apple",
-    name: "Pink Lady",
-    count: 150,
+  fruit2: {
+    type: "Banana",
+    name: "Chiquita",
+    count: 190,
   },
 };
 
-putData(putPath, putDataObject);
+let putDataData = {
+  type: "Apple",
+};
+
+// putData(putPath, putDataData);
 
 // ACHTUNG: Mit PUT kann man wirklich nur gewisse elemente ersetzen! Sollten mehrere Objekte auf einer Ebene liegen und an möchte mit PUT ein weitere Objekt hinzufügen, werden die anderen Objekte gelöscht und durch das neue ersetzt!
+
+// ####################################################################################
+// ###############       fetch PATCH      #############################################
+// ####################################################################################
+
+async function patchData(path = "", data) {
+  let response = await fetch(BASE_URL + path + ".json", {
+    method: "PATCH",
+    header: {
+      "Content-Type": "Application/json",
+    },
+    body: JSON.stringify(data),
+  });
+  if (!response.ok) return;
+}
+
+let patchPath = "/fruits/fruit4";
+
+let patchDataJson = {
+  count: 320,
+};
+
+patchData(patchPath, patchDataJson);
+
+// Mit der PATCH methode lassen sich bereits vorhandene objekte mit weiteren eigenschaften erweitern. Oder man kann, wenn man mit dem path einen genauen key auswählt, diesen mit einem neuen value überschreiben.
