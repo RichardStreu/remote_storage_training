@@ -1,7 +1,8 @@
 function init() {
   console.log("Hallo Welt");
   // loadData(pathFruit1Type);
-  // loadData();
+  // loadData("/fruits");
+  jsonToArray(loadData("/fruits"));
 }
 
 let pathFruit1Type = "/fruits/fruit1/type";
@@ -18,7 +19,28 @@ const BASE_URL = "https://remotestorage-c3cfa-default-rtdb.europe-west1.firebase
 async function loadData(path = "") {
   let response = await fetch(BASE_URL + path + ".json");
   if (!response.ok) return;
-  return (responseToJson = await response.json());
+  let responseToJson = await response.json();
+  return responseToJson;
+}
+
+// ####################################################################################
+// ###############       Json Object zum Array umschreiben       ######################
+// ####################################################################################
+let fruitsArray = [];
+
+async function jsonToArray(json) {
+  let object = await json;
+  console.log(object);
+
+  let newArray = Object.keys(object);
+
+  for (let i = 0; i < newArray.length; i++) {
+    let fruitName = "fruit" + i;
+    fruitsArray.push({
+      fruitName: object[newArray[i]],
+    });
+  }
+  console.log(fruitsArray);
 }
 
 // #####################################################################################
@@ -82,10 +104,10 @@ async function putData(path = "", data) {
 
 let putPath = "/fruits/fruit4";
 let putDataObject = {
-  fruit2: {
-    type: "Banana",
-    name: "Chiquita",
-    count: 190,
+  fruit3: {
+    type: "Kiwi",
+    name: "New Z",
+    count: 580,
   },
 };
 
@@ -112,12 +134,12 @@ async function patchData(path = "", data) {
   if (!response.ok) return;
 }
 
-let patchPath = "/fruits/fruit4";
+let patchPath = "/fruits";
 
 let patchDataJson = {
   count: 320,
 };
 
-patchData(patchPath, patchDataJson);
+// patchData(patchPath, patchDataJson);
 
 // Mit der PATCH methode lassen sich bereits vorhandene objekte mit weiteren eigenschaften erweitern. Oder man kann, wenn man mit dem path einen genauen key auswählt, diesen mit einem neuen value überschreiben.
